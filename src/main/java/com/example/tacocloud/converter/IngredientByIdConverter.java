@@ -17,14 +17,14 @@ public class IngredientByIdConverter implements Converter<String, Ingredients> {
     public IngredientByIdConverter() {
         ingredientsMap.put("FLTO", new Ingredients("FLTO", "Flour Tortilla", Type.WRAP));
         ingredientsMap.put("COTO", new Ingredients("COTO", "Corn Tortilla", Type.WRAP));
-        ingredientsMap.put("COTO", new Ingredients("GRBF", "Ground Beef", Type.PROTEIN));
-        ingredientsMap.put("COTO", new Ingredients("CARN", "Carnitas", Type.PROTEIN));
-        ingredientsMap.put("COTO", new Ingredients("TMTO", "Tomatoes", Type.VEGGIES));
-        ingredientsMap.put("COTO", new Ingredients("LETC", "Lettuce", Type.VEGGIES));
-        ingredientsMap.put("COTO", new Ingredients("CHDR", "Cheese Cheddar", Type.CHEESE));
-        ingredientsMap.put("COTO", new Ingredients("JACK", "Monterrey Jack", Type.CHEESE));
-        ingredientsMap.put("COTO", new Ingredients("SLSA", "Salsa", Type.SAUCE));
-        ingredientsMap.put("COTO", new Ingredients("SRCR", "Sour Cream", Type.SAUCE));
+        ingredientsMap.put("GRBF", new Ingredients("GRBF", "Ground Beef", Type.PROTEIN));
+        ingredientsMap.put("CARN", new Ingredients("CARN", "Carnitas", Type.PROTEIN));
+        ingredientsMap.put("TMTO", new Ingredients("TMTO", "Tomatoes", Type.VEGGIES));
+        ingredientsMap.put("LETC", new Ingredients("LETC", "Lettuce", Type.VEGGIES));
+        ingredientsMap.put("CHDR", new Ingredients("CHDR", "Cheese Cheddar", Type.CHEESE));
+        ingredientsMap.put("JACK", new Ingredients("JACK", "Monterrey Jack", Type.CHEESE));
+        ingredientsMap.put("SLSA", new Ingredients("SLSA", "Salsa", Type.SAUCE));
+        ingredientsMap.put("SRCR", new Ingredients("SRCR", "Sour Cream", Type.SAUCE));
     }
 
 
