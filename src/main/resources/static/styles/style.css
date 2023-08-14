@@ -1,0 +1,24 @@
+div.ingredients-group:nth-child(odd) {
+    float: left;
+    padding-right: 20px;
+}
+
+div.ingredients-group:nth-child(even) {
+    float: left;
+    padding-right: 0;
+}
+
+div.ingredients-group {
+    width: 50%;
+}
+
+.grid:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/**, *:after, *:before {*/
+/*    -webkit-box-*/
+
+/*}*/
