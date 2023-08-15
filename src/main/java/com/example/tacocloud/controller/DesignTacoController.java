@@ -4,7 +4,9 @@ import com.example.tacocloud.model.Ingredients;
 import com.example.tacocloud.model.Ingredients.Type;
 import com.example.tacocloud.model.Taco;
 import com.example.tacocloud.model.TacoOrder;
-import jakarta.validation.Valid;
+import javax.validation.Valid;
+
+import com.example.tacocloud.repository.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Controller
@@ -21,21 +24,17 @@ import java.util.stream.Collectors;
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
 
+    private final IngredientRepository ingredientRepo;
+
+    public DesignTacoController(IngredientRepository ingredientRepo) {
+        this.ingredientRepo = ingredientRepo;
+    }
+
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-        List<Ingredients> ingredients = Arrays.asList(
-                new Ingredients("FLTO", "Flour Tortilla", Type.WRAP),
-                new Ingredients("COTO", "Corn Tortilla", Type.WRAP),
-                new Ingredients("GRBF", "Ground Beef", Type.PROTEIN),
-                new Ingredients("CARN", "Carnitas", Type.PROTEIN),
-                new Ingredients("TMTO", "Tomatoes", Type.VEGGIES),
-                new Ingredients("LETC", "Lettuce", Type.VEGGIES),
-                new Ingredients("CHDR", "Cheese Cheddar", Type.CHEESE),
-                new Ingredients("JACK", "Monterrey Jack", Type.CHEESE),
-                new Ingredients("SLSA", "Salsa", Type.SAUCE),
-                new Ingredients("SRCR", "Sour Cream", Type.SAUCE)
-        );
-        Type[] types = Type.values();
+        Iterable<Ingredients> ingredients = ingredientRepo.findAll();
+
+        Type[] types = Ingredients.Type.values();
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(),
                     filterByType(ingredients, type));
@@ -70,10 +69,9 @@ public class DesignTacoController {
         return "redirect:/orders/current";
     }
 
-    private Iterable<Ingredients> filterByType(List<Ingredients> ingredients, Type type) {
-        return ingredients
-                .stream()
-                .filter(x -> x.getType().equals(type))
+    private Iterable<Ingredients> filterByType(Iterable<Ingredients> ingredients, Type type) {
+        return StreamSupport.stream(ingredients.spliterator(), false)
+                .filter(i -> i.getType().equals(type))
                 .collect(Collectors.toList());
     }
 }
