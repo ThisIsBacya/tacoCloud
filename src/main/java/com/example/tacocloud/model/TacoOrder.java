@@ -3,8 +3,12 @@ package com.example.tacocloud.model;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+
+import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.validator.Incubating;
 import org.hibernate.validator.constraints.CreditCardNumber;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,8 +17,11 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@Entity
 public class TacoOrder implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Serial
@@ -47,6 +54,7 @@ public class TacoOrder implements Serializable {
 //    @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Taco> tacos = new ArrayList<>();
 
     public void addTaco(Taco taco) {
