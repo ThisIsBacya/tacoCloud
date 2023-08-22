@@ -4,15 +4,10 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-//import jakarta.persistence.*;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.validator.Incubating;
 import org.hibernate.validator.constraints.CreditCardNumber;
-import org.springframework.data.cassandra.core.mapping.Column;
-import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
-import org.springframework.data.cassandra.core.mapping.Table;
-//import org.springframework.data.relational.core.mapping.Table;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,14 +16,11 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@Table("orders")
+@Entity
 public class TacoOrder implements Serializable {
 
-    @PrimaryKey
+    @Id
     private Long id;
-
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     private Date placedAt;
 
@@ -57,10 +49,13 @@ public class TacoOrder implements Serializable {
 //    @Digits(integer = 3, fraction = 0, message = "Invalid CVV")
     private String ccCVV;
 
-    @Column("tacos")
-    private List<TacoUDT> tacos = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Taco> tacos = new ArrayList<>();
 
-    public void addTaco(TacoUDT taco) {
+    @ManyToOne
+    private User user;
+
+    public void addTaco(Taco taco) {
         this.tacos.add(taco);
     }
 }

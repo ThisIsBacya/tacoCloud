@@ -18,7 +18,6 @@ public class TacoCloudApplication {
     @Bean
     public CommandLineRunner dataLoader(IngredientRepository repo) {
         return args -> {
-            repo.deleteAll();
             repo.save(new Ingredients("FLTO", "Flour Tortilla", Type.WRAP));
             repo.save(new Ingredients("COTO", "Corn Tortilla", Type.WRAP));
             repo.save(new Ingredients("GRBF", "Ground Beef", Type.PROTEIN));
@@ -31,5 +30,4 @@ public class TacoCloudApplication {
             repo.save(new Ingredients("SRCR", "Sour Cream", Type.SAUCE));
         };
     }
-
 }
