@@ -1,9 +1,8 @@
 package com.example.tacocloud.controller;
 
-import com.example.tacocloud.model.Taco;
 import com.example.tacocloud.model.TacoOrder;
+import com.example.tacocloud.rabbitmq.RabbitOrderMessagingService;
 import com.example.tacocloud.repository.OrderRepository;
-import org.apache.catalina.webresources.EmptyResource;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class OrderApiController {
 
     private OrderRepository orderRepository;
+    private RabbitOrderMessagingService rabbitOrderMessagingService;
+
+    public OrderApiController(OrderRepository orderRepository, RabbitOrderMessagingService rabbitOrderMessagingService) {
+        this.orderRepository = orderRepository;
+        this.rabbitOrderMessagingService = rabbitOrderMessagingService;
+    }
 
     @GetMapping(produces = "application/json")
     public Iterable<TacoOrder> allOrders() {
@@ -23,6 +28,7 @@ public class OrderApiController {
     @PostMapping(consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public TacoOrder postTaco(@RequestBody TacoOrder tacoOrder) {
+        rabbitOrderMessagingService.sendOrder(tacoOrder);
         return orderRepository.save(tacoOrder);
     }
 
